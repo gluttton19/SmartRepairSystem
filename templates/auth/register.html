@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Регистрация — Автосервис{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-4">
+        <h2 class="card-title mb-4 text-center">
+          <i class="bi bi-person-plus me-2"></i>Регистрация
+        </h2>
+        <form method="post" novalidate>
+          {{ form.hidden_tag() }}
+
+          <div class="mb-3">
+            {{ form.username.label(class='form-label') }}
+            {{ form.username(class='form-control' + (' is-invalid' if form.username.errors else ''), placeholder='Имя пользователя') }}
+            {% for e in form.username.errors %}
+              <div class="invalid-feedback">{{ e }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            {{ form.email.label(class='form-label') }}
+            {{ form.email(class='form-control' + (' is-invalid' if form.email.errors else ''), placeholder='example@mail.ru') }}
+            {% for e in form.email.errors %}
+              <div class="invalid-feedback">{{ e }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            {{ form.password.label(class='form-label') }}
+            {{ form.password(class='form-control' + (' is-invalid' if form.password.errors else ''), placeholder='Пароль') }}
+            {% for e in form.password.errors %}
+              <div class="invalid-feedback">{{ e }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            {{ form.password2.label(class='form-label') }}
+            {{ form.password2(class='form-control' + (' is-invalid' if form.password2.errors else ''), placeholder='Повторите пароль') }}
+            {% for e in form.password2.errors %}
+              <div class="invalid-feedback">{{ e }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="d-grid mt-4">
+            {{ form.submit(class='btn btn-dark btn-lg') }}
+          </div>
+        </form>
+      </div>
+    </div>
+    <p class="text-center mt-3 text-muted">
+      Уже есть аккаунт?
+      <a href="{{ url_for('auth.login') }}">Войти</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% block title %}Заявка #{{ req.id }} — Автосервис{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="mb-0"><i class="bi bi-clipboard-check me-2"></i>Заявка #{{ req.id }}</h2>
+  <a href="{{ url_for('master.dashboard') }}" class="text-muted text-decoration-none">
+    <i class="bi bi-arrow-left me-1"></i>Кабинет
+  </a>
+</div>
+
+{% set status_colors = {
+  'Создана': 'secondary',
+  'Подтверждена': 'info',
+  'Назначен мастер': 'primary',
+  'В работе': 'warning',
+  'Ожидает запчасти': 'warning',
+  'Готова к выдаче': 'success',
+  'Завершена': 'success',
+  'Отменена': 'danger'
+} %}
+
+<div class="row g-4">
+  <div class="col-md-5">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-header bg-dark text-white">Детали заявки</div>
+      <div class="card-body">
+        <table class="table table-sm mb-0">
+          <tbody>
+            <tr>
+              <th class="text-muted fw-normal w-40">Клиент</th>
+              <td>{{ req.car.owner.username }}</td>
+            </tr>
+            <tr>
+              <th class="text-muted fw-normal">Автомобиль</th>
+              <td>{{ req.car.brand }} {{ req.car.model }}<br>
+                  <small class="text-muted">{{ req.car.registration_number }}</small></td>
+            </tr>
+            <tr>
+              <th class="text-muted fw-normal">Услуга</th>
+              <td>{{ req.service.name }}</td>
+            </tr>
+            <tr>
+              <th class="text-muted fw-normal">Дата</th>
+              <td>{{ req.preferred_date or '—' }}</td>
+            </tr>
+            <tr>
+              <th class="text-muted fw-normal">Описание</th>
+              <td>{{ req.description or '—' }}</td>
+            </tr>
+            <tr>
+              <th class="text-muted fw-normal">Статус</th>
+              <td>
+                <span class="badge bg-{{ status_colors.get(req.status.value, 'secondary') }}">
+                  {{ req.status.value }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-7">
+    {% if allowed_next %}
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-header bg-dark text-white">Изменить статус</div>
+      <div class="card-body">
+        <form method="post" action="{{ url_for('master.request_status', req_id=req.id) }}" novalidate>
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <div class="mb-3">
+            <label class="form-label">Новый статус</label>
+            <select name="new_status" class="form-select">
+              {% for s in allowed_next %}
+              <option value="{{ s.value }}">{{ s.value }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Комментарий <span class="text-muted small">(необязательно)</span></label>
+            <textarea name="comment" class="form-control" rows="3"
+                      placeholder="Опишите выполненные работы или причину изменения статуса"></textarea>
+          </div>
+          <button type="submit" class="btn btn-dark">
+            <i class="bi bi-check-lg me-1"></i>Сохранить
+          </button>
+        </form>
+      </div>
+    </div>
+    {% else %}
+    <div class="alert alert-secondary mb-4">
+      <i class="bi bi-lock me-2"></i>Заявка уже завершена или отменена. Изменение статуса недоступно.
+    </div>
+    {% endif %}
+
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-dark text-white">История статусов</div>
+      <div class="table-responsive">
+        <table class="table table-sm table-striped mb-0">
+          <thead>
+            <tr>
+              <th>Дата</th>
+              <th>Предыдущий статус</th>
+              <th>Новый статус</th>
+              <th>Изменил</th>
+              <th>Комментарий</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for h in req.status_history %}
+            <tr>
+              <td class="text-muted small">{{ h.changed_at.strftime('%d.%m.%Y %H:%M') }}</td>
+              <td>{{ h.old_status.value if h.old_status else '—' }}</td>
+              <td>
+                <span class="badge bg-{{ status_colors.get(h.new_status.value, 'secondary') }} status-badge">
+                  {{ h.new_status.value }}
+                </span>
+              </td>
+              <td>{{ h.changed_by.username if h.changed_by else '—' }}</td>
+              <td class="text-muted small">{{ h.comment or '—' }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" class="text-muted text-center">История пуста.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

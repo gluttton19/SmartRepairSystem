@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Вход — Автосервис{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-4">
+        <h2 class="card-title mb-4 text-center">
+          <i class="bi bi-box-arrow-in-right me-2"></i>Вход в систему
+        </h2>
+        <form method="post" novalidate>
+          {{ form.hidden_tag() }}
+
+          <div class="mb-3">
+            {{ form.email.label(class='form-label') }}
+            {{ form.email(class='form-control' + (' is-invalid' if form.email.errors else ''), placeholder='example@mail.ru') }}
+            {% for e in form.email.errors %}
+              <div class="invalid-feedback">{{ e }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            {{ form.password.label(class='form-label') }}
+            {{ form.password(class='form-control' + (' is-invalid' if form.password.errors else ''), placeholder='Пароль') }}
+            {% for e in form.password.errors %}
+              <div class="invalid-feedback">{{ e }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="d-grid mt-4">
+            {{ form.submit(class='btn btn-dark btn-lg') }}
+          </div>
+        </form>
+      </div>
+    </div>
+    <p class="text-center mt-3 text-muted">
+      Нет аккаунта?
+      <a href="{{ url_for('auth.register') }}">Зарегистрироваться</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

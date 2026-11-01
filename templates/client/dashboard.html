@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Кабинет клиента — Автосервис{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">
+  <i class="bi bi-person-circle me-2"></i>Добро пожаловать, {{ current_user.username }}
+</h2>
+
+<div class="row g-4">
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body text-center py-4">
+        <i class="bi bi-car-front display-4 text-dark mb-3 d-block"></i>
+        <h5 class="card-title">Мои автомобили</h5>
+        <p class="card-text text-muted">Управляйте списком ваших автомобилей</p>
+        <a href="{{ url_for('client.cars') }}" class="btn btn-dark mt-2">
+          Перейти
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body text-center py-4">
+        <i class="bi bi-clipboard-plus display-4 text-primary mb-3 d-block"></i>
+        <h5 class="card-title">Создать заявку</h5>
+        <p class="card-text text-muted">Запишитесь на обслуживание онлайн</p>
+        <a href="{{ url_for('client.request_create') }}" class="btn btn-primary mt-2">
+          Создать
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body text-center py-4">
+        <i class="bi bi-clock-history display-4 text-warning mb-3 d-block"></i>
+        <h5 class="card-title">История обслуживания</h5>
+        <p class="card-text text-muted">Все ваши заявки и их статусы</p>
+        <a href="{{ url_for('client.history') }}" class="btn btn-warning mt-2">
+          Открыть
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

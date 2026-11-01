@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }} — Автосервис{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-7">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-4">
+        <h2 class="card-title mb-4">
+          <i class="bi bi-clipboard-plus me-2"></i>{{ title }}
+        </h2>
+        <form method="post" novalidate>
+          {{ form.hidden_tag() }}
+
+          <div class="mb-3">
+            {{ form.car_id.label(class='form-label') }}
+            {{ form.car_id(class='form-select' + (' is-invalid' if form.car_id.errors else '')) }}
+            {% for e in form.car_id.errors %}
+              <div class="invalid-feedback">{{ e }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            {{ form.service_id.label(class='form-label') }}
+            {{ form.service_id(class='form-select' + (' is-invalid' if form.service_id.errors else '')) }}
+            {% for e in form.service_id.errors %}
+              <div class="invalid-feedback">{{ e }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            {{ form.preferred_date.label(class='form-label') }}
+            {{ form.preferred_date(class='form-control' + (' is-invalid' if form.preferred_date.errors else ''), type='date') }}
+            {% for e in form.preferred_date.errors %}
+              <div class="invalid-feedback">{{ e }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            {{ form.master_id.label(class='form-label') }}
+            {{ form.master_id(class='form-select' + (' is-invalid' if form.master_id.errors else '')) }}
+            <div class="form-text">Выберите «Назначить автоматически», и система подберёт подходящего мастера.</div>
+            {% for e in form.master_id.errors %}
+              <div class="invalid-feedback">{{ e }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            {{ form.description.label(class='form-label') }}
+            {{ form.description(class='form-control' + (' is-invalid' if form.description.errors else ''), rows=3, placeholder='Опишите проблему или пожелания (необязательно)') }}
+            {% for e in form.description.errors %}
+              <div class="invalid-feedback">{{ e }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="d-flex gap-2 mt-4">
+            {{ form.submit(class='btn btn-dark') }}
+            <a href="{{ url_for('client.requests_list') }}" class="btn btn-outline-secondary">Отмена</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

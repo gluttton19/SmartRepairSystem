@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Мои автомобили — Автосервис{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="mb-0"><i class="bi bi-car-front me-2"></i>Мои автомобили</h2>
+  <a href="{{ url_for('client.car_add') }}" class="btn btn-dark">
+    <i class="bi bi-plus-lg me-1"></i>Добавить автомобиль
+  </a>
+</div>
+
+{% if cars %}
+<div class="row g-3">
+  {% for car in cars %}
+  <div class="col-md-6 col-lg-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body">
+        <h5 class="card-title mb-1">
+          <i class="bi bi-car-front-fill me-1 text-secondary"></i>
+          {{ car.brand }} {{ car.model }}
+        </h5>
+        <p class="text-muted mb-2">{{ car.year }} г.</p>
+        <ul class="list-unstyled mb-3 small">
+          <li><span class="text-muted">Номер:</span> <strong>{{ car.registration_number }}</strong></li>
+          <li><span class="text-muted">VIN:</span> {{ car.vin or '—' }}</li>
+        </ul>
+        <form method="post" action="{{ url_for('client.car_delete', car_id=car.id) }}"
+              onsubmit="return confirm('Удалить {{ car.brand }} {{ car.model }}?')">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit" class="btn btn-outline-danger btn-sm">
+            <i class="bi bi-trash me-1"></i>Удалить
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-secondary">
+  <i class="bi bi-info-circle me-2"></i>У вас пока нет автомобилей.
+  <a href="{{ url_for('client.car_add') }}">Добавить первый</a>.
+</div>
+{% endif %}
+
+<div class="mt-4">
+  <a href="{{ url_for('client.dashboard') }}" class="text-muted text-decoration-none">
+    <i class="bi bi-arrow-left me-1"></i>Кабинет
+  </a>
+</div>
+{% endblock %}

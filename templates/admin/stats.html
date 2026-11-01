@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% block title %}Статистика — Автосервис{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-bar-chart me-2"></i>Статистика системы</h2>
+
+{# ── Пользователи по ролям ── #}
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm text-center py-3">
+      <div class="card-body">
+        <div class="display-5 fw-bold text-primary">{{ users_by_role.client }}</div>
+        <div class="text-muted"><i class="bi bi-person me-1"></i>Клиентов</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm text-center py-3">
+      <div class="card-body">
+        <div class="display-5 fw-bold text-success">{{ users_by_role.master }}</div>
+        <div class="text-muted"><i class="bi bi-person-badge me-1"></i>Мастеров</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm text-center py-3">
+      <div class="card-body">
+        <div class="display-5 fw-bold text-danger">{{ users_by_role.admin }}</div>
+        <div class="text-muted"><i class="bi bi-shield-lock me-1"></i>Администраторов</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4">
+  {# ── Заявки по статусам ── #}
+  <div class="col-md-6">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-header bg-dark text-white">
+        <i class="bi bi-clipboard-data me-1"></i>Заявки по статусам
+      </div>
+      <div class="table-responsive">
+        <table class="table table-sm table-striped mb-0">
+          <thead>
+            <tr><th>Статус</th><th class="text-end">Количество</th></tr>
+          </thead>
+          <tbody>
+            {% for row in requests_by_status %}
+            <tr>
+              <td>{{ row.label }}</td>
+              <td class="text-end">
+                <span class="badge bg-secondary">{{ row.count }}</span>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  {# ── Популярные услуги ── #}
+  <div class="col-md-6">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-header bg-dark text-white">
+        <i class="bi bi-star me-1"></i>Популярные услуги
+      </div>
+      <div class="table-responsive">
+        <table class="table table-sm table-striped mb-0">
+          <thead>
+            <tr><th>Услуга</th><th>Цена</th><th class="text-end">Заявок</th></tr>
+          </thead>
+          <tbody>
+            {% for row in popular_services %}
+            <tr>
+              <td>{{ row.name }}</td>
+              <td class="text-muted text-nowrap">{{ row.price }} ₽</td>
+              <td class="text-end">
+                <span class="badge bg-primary">{{ row.count }}</span>
+              </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="3" class="text-muted text-center">Услуг нет.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  {# ── Загрузка мастеров ── #}
+  <div class="col-12">
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-dark text-white">
+        <i class="bi bi-people me-1"></i>Загрузка мастеров
+      </div>
+      <div class="table-responsive">
+        <table class="table table-sm table-striped table-hover mb-0">
+          <thead>
+            <tr><th>Мастер</th><th>Специализация</th><th class="text-end">Всего заявок</th></tr>
+          </thead>
+          <tbody>
+            {% for row in master_workload %}
+            <tr>
+              <td><strong>{{ row.username }}</strong></td>
+              <td class="text-muted">{{ row.specialization }}</td>
+              <td class="text-end">
+                <span class="badge bg-{{ 'danger' if row.total > 5 else ('warning' if row.total > 2 else 'success') }}">
+                  {{ row.total }}
+                </span>
+              </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="3" class="text-muted text-center">Мастеров нет.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mt-4">
+  <a href="{{ url_for('admin.dashboard') }}" class="text-muted text-decoration-none">
+    <i class="bi bi-arrow-left me-1"></i>Панель администратора
+  </a>
+</div>
+{% endblock %}

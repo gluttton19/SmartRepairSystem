@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}Автосервис — Главная{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8 text-center py-5">
+    <i class="bi bi-tools display-1 text-dark mb-4 d-block"></i>
+    <h1 class="display-5 fw-bold mb-3">
+      Информационная система поддержки клиентов автосервиса
+    </h1>
+    <p class="lead text-muted mb-4">
+      Удобное управление заявками на обслуживание вашего автомобиля.<br>
+      Онлайн-запись, отслеживание статуса, история всех работ — в одном месте.
+    </p>
+    <div class="d-flex justify-content-center gap-3 mb-5">
+      <a href="{{ url_for('auth.login') }}" class="btn btn-dark btn-lg px-4">
+        <i class="bi bi-box-arrow-in-right me-2"></i>Войти
+      </a>
+      <a href="{{ url_for('auth.register') }}" class="btn btn-outline-dark btn-lg px-4">
+        <i class="bi bi-person-plus me-2"></i>Регистрация
+      </a>
+    </div>
+
+    <div class="row g-4 text-start mt-2">
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body">
+            <i class="bi bi-clipboard-plus fs-2 text-primary mb-2 d-block"></i>
+            <h5 class="card-title">Онлайн-запись</h5>
+            <p class="card-text text-muted">Создайте заявку на любую услугу за несколько кликов. Выберите удобную дату и мастера.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body">
+            <i class="bi bi-arrow-repeat fs-2 text-success mb-2 d-block"></i>
+            <h5 class="card-title">Статус в реальном времени</h5>
+            <p class="card-text text-muted">Отслеживайте ход работ на каждом этапе — от приёма до выдачи автомобиля.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body">
+            <i class="bi bi-clock-history fs-2 text-warning mb-2 d-block"></i>
+            <h5 class="card-title">История обслуживания</h5>
+            <p class="card-text text-muted">Полная история всех работ по каждому вашему автомобилю в удобном виде.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

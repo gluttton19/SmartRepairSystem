@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Панель администратора — Автосервис{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-shield-lock me-2"></i>Панель администратора</h2>
+
+<div class="row g-4">
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body text-center py-4">
+        <i class="bi bi-people display-4 text-dark mb-3 d-block"></i>
+        <h5 class="card-title">Пользователи</h5>
+        <p class="card-text text-muted">Список всех зарегистрированных пользователей</p>
+        <a href="{{ url_for('admin.users') }}" class="btn btn-dark mt-2">Перейти</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body text-center py-4">
+        <i class="bi bi-person-badge display-4 text-primary mb-3 d-block"></i>
+        <h5 class="card-title">Мастера</h5>
+        <p class="card-text text-muted">Управление мастерами и их навыками</p>
+        <a href="{{ url_for('admin.masters') }}" class="btn btn-primary mt-2">Перейти</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body text-center py-4">
+        <i class="bi bi-wrench-adjustable display-4 text-secondary mb-3 d-block"></i>
+        <h5 class="card-title">Услуги</h5>
+        <p class="card-text text-muted">Каталог услуг автосервиса и цены</p>
+        <a href="{{ url_for('admin.services') }}" class="btn btn-secondary mt-2">Перейти</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body text-center py-4">
+        <i class="bi bi-list-ul display-4 text-warning mb-3 d-block"></i>
+        <h5 class="card-title">Все заявки</h5>
+        <p class="card-text text-muted">Просмотр всех заявок клиентов</p>
+        <a href="{{ url_for('admin.requests_all') }}" class="btn btn-warning mt-2">Перейти</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body text-center py-4">
+        <i class="bi bi-bar-chart display-4 text-success mb-3 d-block"></i>
+        <h5 class="card-title">Статистика</h5>
+        <p class="card-text text-muted">Аналитика и отчёты по системе</p>
+        <a href="{{ url_for('admin.stats') }}" class="btn btn-success mt-2">Перейти</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

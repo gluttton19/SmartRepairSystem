@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }} — Автосервис{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-4">
+        <h2 class="card-title mb-4">
+          <i class="bi bi-person-plus me-2"></i>{{ title }}
+        </h2>
+        <form method="post" novalidate>
+          {{ form.hidden_tag() }}
+
+          <div class="mb-3">
+            {{ form.username.label(class='form-label') }}
+            {{ form.username(class='form-control' + (' is-invalid' if form.username.errors else ''), placeholder='Имя пользователя') }}
+            {% for e in form.username.errors %}
+              <div class="invalid-feedback">{{ e }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            {{ form.email.label(class='form-label') }}
+            {{ form.email(class='form-control' + (' is-invalid' if form.email.errors else ''), placeholder='master@autoservice.ru') }}
+            {% for e in form.email.errors %}
+              <div class="invalid-feedback">{{ e }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            {{ form.password.label(class='form-label') }}
+            {{ form.password(class='form-control' + (' is-invalid' if form.password.errors else ''), placeholder='Пароль') }}
+            {% for e in form.password.errors %}
+              <div class="invalid-feedback">{{ e }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            {{ form.specialization.label(class='form-label') }}
+            {{ form.specialization(class='form-control' + (' is-invalid' if form.specialization.errors else ''), placeholder='Моторист, слесарь...') }}
+            {% for e in form.specialization.errors %}
+              <div class="invalid-feedback">{{ e }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            {{ form.skill_ids.label(class='form-label') }}
+            {{ form.skill_ids(class='form-select' + (' is-invalid' if form.skill_ids.errors else ''), size=6) }}
+            <div class="form-text">Удерживайте Ctrl (Cmd на Mac) для выбора нескольких навыков.</div>
+            {% for e in form.skill_ids.errors %}
+              <div class="invalid-feedback">{{ e }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="d-flex gap-2 mt-4">
+            {{ form.submit(class='btn btn-dark') }}
+            <a href="{{ url_for('admin.masters') }}" class="btn btn-outline-secondary">Отмена</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
